@@ -38,13 +38,17 @@ class RSA:
         in n, and calculate the totient by (p-1)*(q-1)
 
         """
+        try:
+            self.p = prime_generator()
+            self.q = prime_generator()
+            self.n = self.p * self.q
+            self.totient = (self.p - 1) * (self.q - 1)
+            self.__public_key_generator()
+            self.__private_key_generator()
+        except:
+            self.__init__()    
 
-        self.p = prime_generator()
-        self.q = prime_generator()
-        self.n = self.p * self.q
-        self.totient = (self.p - 1) * (self.q - 1)
-
-    def public_key_generator(self):
+    def __public_key_generator(self):
         """ Generate the public key. """
         e = randint(1, self.totient)
         while gcd(e, self.totient) != 1:
@@ -52,6 +56,6 @@ class RSA:
 
         self.public_key = (e, self.n)            
 
-    def private_key_generator(self):
+    def __private_key_generator(self):
         """ Generate the private key. """
         self.private_key = multiplicative_inverse_of_a_modulo_n(self.public_key[0], self.totient)   
