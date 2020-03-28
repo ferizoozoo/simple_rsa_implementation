@@ -2,6 +2,7 @@ from check_prime import check_prime
 from prime_generator import prime_generator
 from gcd import gcd
 from random import randint
+from multiplicative_inverse import multiplicative_inverse_of_a_modulo_n
 
 class RSA:
     """
@@ -53,10 +54,4 @@ class RSA:
 
     def private_key_generator(self):
         """ Generate the private key. """
-        d = 0
-        for i in range(1, self.totient):
-            if (1 + i * self.totient) % self.public_key[0] == 0:
-                d = (1 + i * self.totient) / self.public_key[0]
-                break
-
-        self.private_key = d    
+        self.private_key = multiplicative_inverse_of_a_modulo_n(self.public_key[0], self.totient)   
